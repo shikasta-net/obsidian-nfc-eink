@@ -1,0 +1,10 @@
+{
+	"id": "nfc-eink",
+	"name": "NFC-eInk writer",
+	"version": "0.0.1",
+	"minAppVersion": "1.13.0",
+	"description": "Write an obsidian page to a passive (NFC powered) eInk display.",
+	"author": "Kym Eden",
+	"authorUrl": "",
+	"isDesktopOnly": false
+}
