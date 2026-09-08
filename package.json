@@ -23,5 +23,13 @@
 		"obsidian": "latest",
 		"typescript": "^5.8.3",
 		"typescript-eslint": "^8.59.1"
+	},
+	"dependencies": {
+		"dom-to-image-more": "^3.10.2",
+		"dompurify": "^3.4.15",
+		"rehype-stringify": "^10.0.1",
+		"remark-html": "^16.0.1",
+		"remark-parse": "^11.0.0",
+		"remark-rehype": "^11.1.2"
 	}
 }
