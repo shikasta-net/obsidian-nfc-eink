@@ -13,7 +13,7 @@ import {
   NfcEinkSettingsTab,
 } from './settings';
 
-async function exportActiveNote(plugin: Plugin) {
+async function exportActiveNote(plugin: NfcEinkPlugin) {
   const file = plugin.app.workspace.getActiveFile();
   if (!file || !['md', 'markdown'].includes(file.extension)) {
     new Notice("No active file");
@@ -24,7 +24,7 @@ async function exportActiveNote(plugin: Plugin) {
   .use(remarkParse)
   .use(remarkHtml)
   .process(markdown)), {RETURN_DOM: true});
-  await domtoimage.toPng(html).then(async function (blob) {
+  await domtoimage.toPng(html, {height: plugin.settings.display.height, width: plugin.settings.display.width}).then(async function (blob) {
     await navigator.clipboard.writeText(blob);
   });
 }
