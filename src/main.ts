@@ -27,6 +27,26 @@ async function exportActiveNote(plugin: Plugin) {
   await domtoimage.toPng(html).then(async function (blob) {
     await navigator.clipboard.writeText(blob);
   });
+  if ("NDEFReader" in window) {
+    try {
+      const ndef = new NDEFReader();
+      await ndef.scan();
+      new Notice("> Scan started");
+
+      ndef.addEventListener("readingerror", () => {
+        new Notice("Argh! Cannot read data from the NFC tag. Try another one?");
+      });
+
+      ndef.addEventListener("reading", (event) => {
+        const  { serialNumber }  = event as NDEFReadingEvent;
+        new Notice(`> Serial Number: ${serialNumber}`);
+      });
+    } catch (error) {
+      new Notice("Argh! " + error);
+    }
+  } else {
+    new Notice("Web NFC is not available. Use Chrome on Android.");
+  }
 }
 
 export default class NfcEinkPlugin extends Plugin {
