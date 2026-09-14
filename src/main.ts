@@ -24,8 +24,12 @@ async function exportActiveNote(plugin: NfcEinkPlugin) {
   .use(remarkParse)
   .use(remarkHtml)
   .process(markdown)), {RETURN_DOM: true});
-  await domtoimage.toPng(html, {height: plugin.settings.display.height, width: plugin.settings.display.width}).then(async function (blob) {
-    await navigator.clipboard.writeText(blob);
+  await domtoimage.toBlob(html, {height: plugin.settings.display.height, width: plugin.settings.display.width}).then(async function (blob) {
+    await navigator.clipboard.write([
+        new ClipboardItem({
+            [blob.type]: blob
+        })
+    ]);
   });
 }
 
@@ -35,6 +39,7 @@ export default class NfcEinkPlugin extends Plugin {
   async onload() {
     await this.loadSettings();
 
+    // this.app.workspace.getActiveViewOfType(MarkdownView)?.addAction('smartphone-nfc', 'Send to NFC', () => void exportActiveNote(this));
     this.addRibbonIcon('smartphone-nfc', 'Send to NFC', () => void exportActiveNote(this));
 
     this.addSettingTab(new NfcEinkSettingsTab(this.app, this));
